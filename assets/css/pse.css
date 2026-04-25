@@ -1,0 +1,770 @@
+/* =============================================================
+   SprintTech — Pasarela PSE CSS
+   ============================================================= */
+
+/* ── Overlay del modal ── */
+.pse-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 16, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.pse-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Modal container ── */
+.pse-modal {
+  background: linear-gradient(145deg, #0e1428, #121a35);
+  border: 1px solid rgba(0, 212, 255, 0.18);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 212, 255, 0.06);
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  scrollbar-width: thin;
+  scrollbar-color: #7c3aed #0e1428;
+}
+
+.pse-overlay.open .pse-modal {
+  transform: scale(1) translateY(0);
+}
+
+/* ── Header del modal ── */
+.pse-header {
+  padding: 28px 28px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pse-header-left {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.pse-logo-wrap {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0052cc, #00c2ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(0, 82, 204, 0.45);
+  flex-shrink: 0;
+}
+
+.pse-logo-wrap img,
+.pse-logo-wrap span {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -1px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.pse-title-group h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.pse-title-group p {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.pse-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.pse-close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+/* ── Steps indicator ── */
+.pse-steps {
+  display: flex;
+  align-items: center;
+  padding: 20px 28px 0;
+  gap: 0;
+}
+
+.pse-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.pse-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.pse-step-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.pse-step.active .pse-step-num {
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+}
+
+.pse-step.active .pse-step-label {
+  color: #e2e8f0;
+}
+
+.pse-step.done .pse-step-num {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.5);
+  color: #10b981;
+}
+
+.pse-step.done .pse-step-label {
+  color: #10b981;
+}
+
+.pse-step-line {
+  flex: 1;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 8px;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+
+.pse-step-line.done {
+  background: rgba(16, 185, 129, 0.5);
+}
+
+/* ── Contenido de los pasos ── */
+.pse-body {
+  padding: 24px 28px 28px;
+}
+
+.pse-step-content {
+  display: none;
+  animation: pseFadeIn 0.3s ease;
+}
+
+.pse-step-content.active {
+  display: block;
+}
+
+@keyframes pseFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Monto del pago ── */
+.pse-amount-box {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.06), rgba(124, 58, 237, 0.06));
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pse-amount-label {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.pse-amount-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.03em;
+}
+
+.pse-amount-value span {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.pse-cert-name {
+  font-size: 0.78rem;
+  color: #64748b;
+  max-width: 200px;
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* ── Título sección bancos ── */
+.pse-section-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+}
+
+/* ── Grid de bancos ── */
+.pse-banks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.pse-bank-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 16px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pse-bank-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--bank-color, transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  border-radius: inherit;
+}
+
+.pse-bank-card:hover {
+  border-color: var(--bank-border, rgba(255,255,255,0.2));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.pse-bank-card:hover::before {
+  opacity: 1;
+}
+
+.pse-bank-card.selected {
+  border-color: var(--bank-border, #00d4ff);
+  box-shadow: 0 0 0 2px var(--bank-border, rgba(0, 212, 255, 0.3));
+}
+
+.pse-bank-card.selected::before {
+  opacity: 1;
+}
+
+.pse-bank-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  font-weight: 900;
+  font-family: 'Outfit', sans-serif;
+  color: white;
+}
+
+.pse-bank-info {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+}
+
+.pse-bank-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pse-bank-type {
+  font-size: 0.7rem;
+  color: #64748b;
+}
+
+.pse-bank-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bank-accent, #00d4ff);
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: white;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.pse-bank-card.selected .pse-bank-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Colores por banco */
+.bank-nequi {
+  --bank-color: rgba(138, 43, 226, 0.08);
+  --bank-border: rgba(138, 43, 226, 0.6);
+  --bank-accent: #8a2be2;
+}
+.bank-nequi .pse-bank-logo { background: linear-gradient(135deg, #5b21b6, #8a2be2); }
+
+.bank-bancolombia {
+  --bank-color: rgba(255, 204, 0, 0.06);
+  --bank-border: rgba(255, 204, 0, 0.5);
+  --bank-accent: #ffcc00;
+}
+.bank-bancolombia .pse-bank-logo { background: linear-gradient(135deg, #e6b800, #ffcc00); color: #1a1a00; }
+
+.bank-davivienda {
+  --bank-color: rgba(220, 30, 30, 0.07);
+  --bank-border: rgba(220, 30, 30, 0.5);
+  --bank-accent: #dc1e1e;
+}
+.bank-davivienda .pse-bank-logo { background: linear-gradient(135deg, #b91c1c, #dc1e1e); }
+
+.bank-bogota {
+  --bank-color: rgba(0, 56, 147, 0.09);
+  --bank-border: rgba(0, 100, 220, 0.5);
+  --bank-accent: #0064dc;
+}
+.bank-bogota .pse-bank-logo { background: linear-gradient(135deg, #003893, #0064dc); }
+
+.bank-bbva {
+  --bank-color: rgba(0, 53, 128, 0.09);
+  --bank-border: rgba(0, 160, 240, 0.5);
+  --bank-accent: #00a0f0;
+}
+.bank-bbva .pse-bank-logo { background: linear-gradient(135deg, #003580, #00a0f0); }
+
+.bank-breb {
+  --bank-color: rgba(0, 180, 160, 0.07);
+  --bank-border: rgba(0, 200, 180, 0.5);
+  --bank-accent: #00c8b4;
+}
+.bank-breb .pse-bank-logo { background: linear-gradient(135deg, #007a6e, #00c8b4); }
+
+/* ── Paso 2: Formulario ── */
+.pse-banco-selected-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 6px 14px 6px 6px;
+  margin-bottom: 22px;
+  font-size: 0.82rem;
+  color: #e2e8f0;
+}
+
+.pse-banco-selected-badge .mini-logo {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: white;
+}
+
+.pse-form-group {
+  margin-bottom: 16px;
+}
+
+.pse-label {
+  display: block;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pse-select,
+.pse-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.pse-select option { background: #0e1428; color: #e2e8f0; }
+
+.pse-select:focus,
+.pse-input:focus {
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.04);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+
+.pse-input::placeholder { color: #475569; }
+
+.pse-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ── Botones del modal ── */
+.pse-footer {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.pse-btn {
+  flex: 1;
+  padding: 13px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pse-btn-back {
+  background: rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex: 0 0 auto;
+  padding: 13px 18px;
+}
+
+.pse-btn-back:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+}
+
+.pse-btn-primary {
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  color: white;
+  box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+}
+
+.pse-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 212, 255, 0.45);
+  filter: brightness(1.08);
+}
+
+.pse-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pse-btn-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.35);
+}
+
+.pse-btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(16, 185, 129, 0.5);
+}
+
+/* ── Paso 3: Procesamiento ── */
+.pse-processing {
+  text-align: center;
+  padding: 32px 0 8px;
+}
+
+.pse-spinner-wrap {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  position: relative;
+}
+
+.pse-spinner {
+  width: 80px;
+  height: 80px;
+  border: 3px solid rgba(0, 212, 255, 0.12);
+  border-top-color: #00d4ff;
+  border-radius: 50%;
+  animation: pseSpin 0.9s linear infinite;
+}
+
+@keyframes pseSpin {
+  to { transform: rotate(360deg); }
+}
+
+.pse-spinner-inner {
+  position: absolute;
+  inset: 8px;
+  border: 3px solid rgba(124, 58, 237, 0.12);
+  border-bottom-color: #7c3aed;
+  border-radius: 50%;
+  animation: pseSpin 1.4s linear infinite reverse;
+}
+
+.pse-processing-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 8px;
+}
+
+.pse-processing-sub {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.pse-processing-dots {
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.pse-processing-dots span {
+  width: 7px;
+  height: 7px;
+  background: #00d4ff;
+  border-radius: 50%;
+  animation: pseDot 1.2s ease-in-out infinite;
+}
+
+.pse-processing-dots span:nth-child(2) { animation-delay: 0.2s; background: #7c3aed; }
+.pse-processing-dots span:nth-child(3) { animation-delay: 0.4s; background: #00d4ff; }
+
+@keyframes pseDot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40%           { transform: scale(1.1); opacity: 1; }
+}
+
+/* ── Resultado: Aprobado ── */
+.pse-result {
+  text-align: center;
+  padding: 16px 0 8px;
+}
+
+.pse-result-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  animation: psePopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes psePopIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.pse-result-icon.success {
+  background: rgba(16, 185, 129, 0.15);
+  border: 2px solid rgba(16, 185, 129, 0.4);
+  color: #10b981;
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.25);
+}
+
+.pse-result-icon.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 2px solid rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.2);
+}
+
+.pse-result-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.pse-result-sub {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.pse-ref-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 22px;
+  text-align: left;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.pse-ref-box strong {
+  color: #00d4ff;
+  font-family: 'Outfit', monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+}
+
+/* ── Botón Realizar Pago en la card del curso ── */
+.btn-pse {
+  background: linear-gradient(135deg, #0052cc 0%, #00d4ff 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 82, 204, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.btn-pse:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 82, 204, 0.55);
+  filter: brightness(1.08);
+}
+
+.btn-pse.paid {
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+  cursor: default;
+}
+
+.btn-pse.paid:hover {
+  transform: none;
+  filter: none;
+}
+
+/* ── Info security strip ── */
+.pse-secure-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.pse-secure-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: #475569;
+}
+
+.pse-secure-item i {
+  color: #10b981;
+  font-size: 0.8rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 500px) {
+  .pse-banks-grid { grid-template-columns: 1fr; }
+  .pse-form-row { grid-template-columns: 1fr; }
+  .pse-header { padding: 20px 18px 16px; }
+  .pse-body { padding: 18px; }
+  .pse-amount-value { font-size: 1.3rem; }
+}
+
+/* ── CERTIFICADO PDF view ── */
+@media print {
+  body > *:not(#cert-print-wrap) { display: none !important; }
+  #cert-print-wrap {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+  }
+}

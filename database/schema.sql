@@ -93,6 +93,27 @@ CREATE TABLE IF NOT EXISTS certifications (
   FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- ─────────────────────────────────────────
+-- TABLA: certificate_payments (Pasarela PSE)
+-- ─────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS certificate_payments (
+  id              INT AUTO_INCREMENT PRIMARY KEY,
+  user_id         INT NOT NULL,
+  course_id       INT NOT NULL,
+  banco           VARCHAR(50) NOT NULL COMMENT 'nequi|bancolombia|davivienda|bogota|bbva|breb',
+  tipo_persona    ENUM('natural','juridica') DEFAULT 'natural',
+  tipo_doc        VARCHAR(20) NOT NULL COMMENT 'CC|CE|NIT|PP|TI',
+  numero_doc      VARCHAR(30) NOT NULL,
+  monto           DECIMAL(10,2) NOT NULL DEFAULT 15000.00,
+  estado          ENUM('pendiente','aprobado','rechazado') DEFAULT 'pendiente',
+  referencia_pse  VARCHAR(100),
+  fecha_pago      DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id)   REFERENCES users(id)   ON DELETE CASCADE,
+  FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+  INDEX idx_user_course (user_id, course_id),
+  INDEX idx_estado (estado)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ============================================================
 -- DATOS SEMILLA — 6 Cursos de Tecnologías Emergentes
 -- ============================================================
